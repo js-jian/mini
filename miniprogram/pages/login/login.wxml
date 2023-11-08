@@ -1,0 +1,6 @@
+<view>
+  <form bindsubmit="onSubmit">
+    <input type="number" name="phone" placeholder="phone" />
+    <button form-type="submit">submit</button>
+  </form>
+</view>

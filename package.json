@@ -1,0 +1,13 @@
+{
+  "name": "jie",
+  "version": "1.0.0",
+  "description": "第一个小程序",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "node ./node_modules/typescript/lib/tsc.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
