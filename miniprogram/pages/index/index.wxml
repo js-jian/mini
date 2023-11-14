@@ -1,4 +1,5 @@
 <!--index.wxml-->
 <view>
   <button bind:tap="toLogin">toLogin</button>
+  <button bind:tap="editUserInfo">editUserInfo</button>
 </view>

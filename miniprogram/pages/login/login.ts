@@ -9,9 +9,12 @@ Page({
 
   },
 
-  async onSubmit(e) {
-    console.log(e)
-    await Api.login({}, {}).then(res => {
+  async onSubmit() {
+    await Api.signUp({
+      phone: 12345678901,
+      username: "test",
+    }).then((res: any) => {
+      console.log('-res')
       this.setData({
         list: res.data,
         isLoad: true
@@ -22,7 +25,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onLoad() {
 
   },
 

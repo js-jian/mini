@@ -1,11 +1,10 @@
-import { CollectionEnum } from "../../constants";
-import { ResquestWhere } from "../../interface";
-import { getCloud } from "../cloud/baseCloud";
+import { CollectionEnum } from "../constants/collection";
+import { getCloud } from "../core/baseCloud";
 
 const cloud = getCloud();
 const db = cloud.database();
 
-async function count(collectionName: CollectionEnum, where: ResquestWhere) {
+async function count(collectionName: CollectionEnum, where: any) {
 	let query = await db.collection(collectionName);
 
 	query = await query.where(where).count();
@@ -15,9 +14,8 @@ async function count(collectionName: CollectionEnum, where: ResquestWhere) {
 
 async function getOne(
   collectionName: CollectionEnum,
-  where: ResquestWhere,
+  where: any,
   fields: string = '*',
-  orderBy = {}
 ) {
 	// 查询条件 
 	let query = await db.collection(collectionName)
@@ -26,16 +24,18 @@ async function getOne(
 
 	// 取出特定字段 
 	if (fields != '*')
-		query = await query.field(fields);
-
-	// // 排序
-	// if (orderBy)
-	// 	query = await fmtOrderBy(query, orderBy);
-
+    query = await query.field(fields);
+    
 	// 取数据
 	query = await query.get();
 
   return query?.data?.[0];
+}
+
+async  function insert(collectionName: CollectionEnum, data: any) {
+  const query = await db.collection(collectionName).add({ data });
+
+  return query._id;
 }
 
 async function isExistCollection(collectionName: CollectionEnum) {
@@ -43,7 +43,7 @@ async function isExistCollection(collectionName: CollectionEnum) {
 		await getOne(collectionName, {});
 		return true;
 
-	} catch (err) {
+	} catch (error: any) {
 		return false;
 	}
 }
@@ -54,14 +54,24 @@ async function createCollection(collectionName: CollectionEnum) {
 
 		console.log('>> Create New Collection [' + collectionName + '] Success, DONE.');
 		return true;
-	} catch (err) {
-		console.error('>> Create New Collection [' + collectionName + '] Failed, Code=' + err.errCode + '|' + err.errMsg);
+	} catch (error: any) {
+		console.error('>> Create New Collection [' + collectionName + '] Failed, Code=' + error.errCode + '|' + error.errMsg);
 		return false;
 	}
 }
 
-export default {
+async function edit(collectionName: CollectionEnum, where: any, data: any) {
+  const query = await db.collection(collectionName).where(where).update({
+		data
+	});
+
+	return query.stats.updated;
+}
+
+export const dbUtil = {
+  insert,
   count,
+  edit,
   isExistCollection,
   createCollection,
 };

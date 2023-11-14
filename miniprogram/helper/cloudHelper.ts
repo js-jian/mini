@@ -1,34 +1,34 @@
-
- // 云函数请求(异步)
- function callCloud(route, params = {}, options) {
+ function callCloud(route: string, params: any = {}) {
   return new Promise(function (resolve, reject) {
     wx.cloud.callFunction({
-      name: 'cloud',
+      name: "cloud",
       data: {
-        route: route,
-        // token,
-        // PID,
-        // params
+        route,
+        params
       },
       success: function (res) {
+        console.log("callFunction-success", res)
         resolve(res.result);
       },
       fail: function (err) {
+        console.log("callFunction-fail", err)
         reject(err);
       },
-      complete: function (res) {
-        console.log(res)
+      complete: function () {
       }
     });
   });
 }
 
-async function login(params, options) {
-  return callCloud("SIGN_UP", params, options)
+async function signUp(data: any) {
+  return callCloud("USER_SIGN_UP", data)
 }
 
+async function updateUserInfo(data: any) {
+  return callCloud("USER_UPDATE_INFO", data)
+}
 
-
-module.exports = {
-  login,
+export default {
+  signUp,
+  updateUserInfo,
 }

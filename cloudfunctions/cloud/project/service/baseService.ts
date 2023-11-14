@@ -1,22 +1,22 @@
-import { CollectionEnum } from "../../constants";
-import dbUtil from "../../framework/database/dbUtil";
-import SetupModel from "../model/setupModel";
+import { CollectionEnum } from "../../constants/collection";
+import { dbUtil } from "../../utils/dbUtil";
+import UserModel from "../model/userModel";
 
 class BaseService {
   constructor() {
   }
 
   async initSetup() {
-    if (await dbUtil.isExistCollection(CollectionEnum.JIE_SETUP)) {
-			let setupCnt = await SetupModel.count({});
-			if (setupCnt > 0) return;
+    if (await dbUtil.isExistCollection(CollectionEnum.J_USER)) {
+			let userCnt = await UserModel.count({});
+			if (userCnt > 0) return;
 		}
 
     console.log('# initSetup...');
 
     Object.values(CollectionEnum).forEach(async (collectionName) => {
       if (
-          collectionName !== CollectionEnum.JIE_NO_COLLECTION &&
+          collectionName !== CollectionEnum.J_NO_COLLECTION &&
           !await dbUtil.isExistCollection(collectionName)
       ) {
         await dbUtil.createCollection(collectionName);

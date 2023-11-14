@@ -1,16 +1,20 @@
-import Controller from "../../framework/client/controller";
-import AppError from "../../framework/core/appError";
-import { ResquestEvent } from "../../interface";
-import { ErrorCodeEnum, RouteEnum } from "../../constants";
+import { AppCodeEnum } from "../../constants/appCode";
+import AppError from "../../core/appError";
+import { IResquestEvent } from "../../interface/iRequest";
 import BaseService from "../service/baseService";
 
-class BaseController extends Controller {
-  constructor(route: RouteEnum, openId: string, event: ResquestEvent) {
-    super(route, openId, event);
+class BaseController {
+  _requestEvent: IResquestEvent;
+  _requestParams: IResquestEvent["params"];
+  _openId: string;
+
+  constructor(openId: string, event: IResquestEvent, params: IResquestEvent["params"]) {
+    this._openId = openId; // 用户身份
+    this._requestEvent = event; // 请求完整数据   
+    this._requestParams = params; // 接口参数
 
     if (!openId) {
-			console.error('OPENID is unfined');
-			throw new AppError('OPENID is unfined', ErrorCodeEnum.SERVICE_ERR);
+			throw new AppError('OPENID is unfined', AppCodeEnum.SERVICE_ERROR);
 		}
   }
 

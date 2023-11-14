@@ -1,0 +1,12 @@
+[
+  {
+    "name": "signup",
+    "value": {
+      "route": "USER_SIGN_UP",
+      "params": {
+        "phone": 12345678901,
+        "username": "test"
+      }
+    }
+  }
+]
